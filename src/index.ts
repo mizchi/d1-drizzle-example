@@ -1,12 +1,5 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `wrangler dev src/index.ts` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `wrangler publish src/index.ts --name my-worker` to publish your worker
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
+import { drizzle } from 'drizzle-orm/d1';
+import { users } from './schema';
 
 export interface Env {
   DB: D1Database;
@@ -18,7 +11,8 @@ export default {
     env: Env,
     ctx: ExecutionContext
   ): Promise<Response> {
-    const res = await env.DB.prepare(`SELECT COUNT(*) FROM users;`).all();
-    return Response.json(res.results!);
+    const db = drizzle(env.DB);
+    const result = await db.select().from(users).all();
+    return Response.json(result);
   },
 };

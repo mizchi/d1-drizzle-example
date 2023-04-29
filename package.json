@@ -1,5 +1,6 @@
 {
   "name": "d1-drizzle",
+  "packageManager": "pnpm@8.3.1",
   "version": "0.0.0",
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230404.0",
@@ -12,6 +13,7 @@
   },
   "private": true,
   "scripts": {
+    "dev": "wrangler dev --local --persist",
     "start": "wrangler dev",
     "deploy": "wrangler publish",
     "test": "vitest"
