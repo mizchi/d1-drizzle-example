@@ -1,0 +1,8 @@
+name = "d1-drizzle"
+main = "src/index.ts"
+compatibility_date = "2023-04-29"
+
+[[ d1_databases ]]
+binding = "DB"
+database_name = "dzltest"
+database_id = "ab8b338d-2bdb-4c24-9f8e-1095dc814506"

@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1682755917462,
+      "tag": "0000_acoustic_doorman",
+      "breakpoints": false
+    }
+  ]
+}
