@@ -1,5 +1,7 @@
 # D1-DRIZZLE-EXAMPLE
 
+My cloudflare d1 and drizzle-orm example (or starter) repository.
+
 ## Stack
 
 - Node.js
@@ -9,6 +11,18 @@
 - GitHub Deploy Workflow (WIP)
 
 ## Setup
+
+Create your d1 database.
+
+```bash
+$ pnpm wrangler d1 create <your-db-name>
+
+## Replace dzltest to your db name
+## TODO(mizchi): refactor to skip this phase
+$ git grep dzltest
+.github/workflows/release.yml:      - run: pnpm wrangler d1 migrations apply dzltest
+wrangler.toml:database_name = "dzltest"
+```
 
 ```bash
 $ pnpm install
@@ -27,15 +41,19 @@ database_name = "<your-db-name>"
 database_id = "<your-db-id>"
 ```
 
-## Dev
+## Develop
+
+### Start Dev Server
 
 ```bash
-$ pnpm install
+## remove test migration script
+# rm -r migrations/*
+$ pnpm gen:migrate # pnpm drizzle-kit generate:sqlite --out migrations --schema src/schema.ts
 $ pnpm wrangler d1 migrations apply <your-db-name> --local
-$ pnpm wrangler dev --local --persist # or pnpm dev
+$ pnpm dev # or pnpm wrangler dev --local --persist
 ```
 
-## Dev: Local Migration
+### Local Migration
 
 Edit drizzle schema.
 
@@ -57,25 +75,47 @@ export const users = sqliteTable('users', {
 and apply it
 
 ```bash
+$ pnpm gen:migrate # pnpm drizzle-kit generate:sqlite --out migrations --schema src/schema.ts
+# git add migrations && git commit -m "..."
 $ pnpm wrangler d1 migrations apply <your-db-name> --local
 ```
 
-## Release from local
+## Release
+
+### migration and release from CI
+
+Put Cloudflare's API_TOKEN on GitHub Repository Secrets. (Keep Secret!)
+
+```bash
+# push by your way. PR or direct push
+$ git push origin main:release/$(date +%s)
+```
+
+`.github/workflows/release.yml` will run by push trigger.
+
+```yml
+      # edit here to release
+      - run: pnpm wrangler d1 migrations apply <your-db-name>
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - run: pnpm wrangler publish
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+```
+
+### migration and release from local to production
+
+For escape hatch.
 
 ```bash
 $ pnpm pnpm wrangler d1 migrations apply <your-db-name>
 $ pnpm wrangler publish
 ```
 
-## Release from CI
+## TODO
 
-TODO
-
-Put Cloudflare's API_TOKEN on GitHub Repository Secrets.
-
-Create PR for `release/*` branch from GitHub Actions.
-
-Merge PR then `.github/workflows/realese.yml` will run.
+- [ ] Support preview
+- [ ] auto your-db-name replace
 
 ## LICENSE
 

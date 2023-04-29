@@ -15,6 +15,7 @@
   "scripts": {
     "dev": "wrangler dev --local --persist",
     "start": "wrangler dev",
+    "gen:migrate": "drizzle-kit generate:sqlite --out migrations --schema src/schema.ts",
     "deploy": "wrangler publish",
     "test": "vitest"
   }
