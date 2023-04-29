@@ -115,7 +115,9 @@ $ pnpm wrangler publish
 ## TODO
 
 - [ ] Support preview
-- [ ] auto your-db-name replace
+- [ ] Auto your-db-name replace
+- [ ] Pass test
+- [ ] Seed
 
 ## LICENSE
 
