@@ -2,6 +2,7 @@
 
 ## Stack
 
+- Node.js
 - cloudflare workers
 - cloudflare d1
 - drizzle-orm
